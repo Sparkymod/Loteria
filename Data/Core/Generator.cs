@@ -129,9 +129,41 @@ namespace Loteria.Data.Core
             List<Task> tasks = new();
             Stopwatch sw = Stopwatch.StartNew();
             sw.Start();
-
+            byte max = 38;
             // Generacion de 6 posiciones con rangos de 38 numeros
-            tasks.Add(Task.Run(() => GenerateWithinRange(1, 38)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(1, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(2, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(3, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(4, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(5, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(6, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(7, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(8, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(9, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(10, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(11, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(12, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(13, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(14, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(15, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(16, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(17, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(18, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(19, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(20, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(21, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(22, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(23, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(24, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(25, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(26, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(27, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(28, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(29, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(30, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(31, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(32, max)));
+            tasks.Add(Task.Run(() => GenerateWithinRange(33, max)));
 
             await Task.WhenAll(tasks);
             //task.Wait();
@@ -151,92 +183,91 @@ namespace Loteria.Data.Core
             Console.WriteLine($"Success in: {sw.Elapsed}");
         }
 
+        int Count = 1;
         private async void GenerateWithinRange(byte min = 1, byte max = 38)
         {
-            int Count = 1;
             List<Pool> pools = new();
-            byte index1 = 0;
+            //byte index1 = 0;
             byte index2 = 0;
             byte index3 = 0;
             byte index4 = 0;
             byte index5 = 0;
             byte index6 = 0;
 
-            for (byte pos1 = (byte) (min + index1); pos1 <= (byte)(max - 5); pos1++)
+
+            for (byte pos2 = (byte)(min + 1 + index2); pos2 <= (byte)(max - 4); pos2++)
             {
-                for (byte pos2 = (byte)(min + 1 + index2); pos2 <= (byte)(max - 4); pos2++)
+                if (min == pos2)
                 {
-                    if (pos1 == pos2)
+                    continue;
+                }
+
+                for (byte pos3 = (byte)(min + 2 + index3); pos3 <= (byte)(max - 3); pos3++)
+                {
+                    if (min == pos3 || pos2 == pos3)
                     {
                         continue;
                     }
 
-                    for (byte pos3 = (byte)(min + 2 + index3); pos3 <= (byte)(max - 3); pos3++)
+                    for (byte pos4 = (byte)(min + 3 + index4); pos4 <= (byte)(max - 2); pos4++)
                     {
-                        if (pos1 == pos3 || pos2 == pos3)
+                        if (min == pos4 || pos2 == pos4 || pos3 == pos4)
                         {
                             continue;
                         }
 
-                        for (byte pos4 = (byte)(min + 3 + index4); pos4 <= (byte)(max - 2); pos4++)
+                        for (byte pos5 = (byte)(min + 4 + index5); pos5 <= (byte)(max - 1); pos5++)
                         {
-                            if (pos1 == pos4 || pos2 == pos4 || pos3 == pos4)
+                            if (min == pos5 || pos2 == pos5 || pos3 == pos5 || pos4 == pos5)
                             {
                                 continue;
                             }
 
-                            for (byte pos5 = (byte)(min + 4 + index5); pos5 <= (byte)(max - 1); pos5++)
+                            for (byte pos6 = (byte)(min + 5 + index6); pos6 <= max; pos6++)
                             {
-                                if (pos1 == pos5 || pos2 == pos5 || pos3 == pos5 || pos4 == pos5)
+                                if (min == pos6 || pos2 == pos6 || pos3 == pos6 || pos4 == pos6 || pos5 == pos6)
                                 {
                                     continue;
                                 }
 
-                                for (byte pos6 = (byte)(min + 5 + index6); pos6 <= max; pos6++)
+                                Pool pool = new();
+
+                                pool.PoolId = Count;
+                                pool.Numero1 = min;
+                                pool.Numero2 = pos2;
+                                pool.Numero3 = pos3;
+                                pool.Numero4 = pos4;
+                                pool.Numero5 = pos5;
+                                pool.Numero6 = pos6;
+
+                                var sorted = pool.SortedList();
+
+                                var found = pools.Any(x => x.SortedList().SequenceEqual(sorted));
+                                if (found)
                                 {
-                                    if (pos1 == pos6 || pos2 == pos6 || pos3 == pos6 || pos4 == pos6 || pos5 == pos6)
-                                    {
-                                        continue;
-                                    }
-
-                                    Pool pool = new();
-
-                                    pool.PoolId = Count;
-                                    pool.Numero1 = pos1;
-                                    pool.Numero2 = pos2;
-                                    pool.Numero3 = pos3;
-                                    pool.Numero4 = pos4;
-                                    pool.Numero5 = pos5;
-                                    pool.Numero6 = pos6;
-
-                                    var sorted = pool.SortedList();
-
-                                    var found = pools.Any(x => x.SortedList().SequenceEqual(sorted));
-                                    if (found)
-                                    {
-                                        Console.WriteLine($"Please wait... Skipping repeated combinations! This will take a while...");
-                                        continue;
-                                    }
-
-                                    pools.Add(pool);
-
-                                    Count++;
-                                    Console.WriteLine($"Gen: #{pos1} => [ {pos1} {pos2} {pos3} {pos4} {pos5} {pos6} ] --> {Count}");
+                                    continue;
                                 }
-                                index6 = 0;
-                                index5++;
+
+                                pools.Add(pool);
+
+                                Count++;
+                                Console.WriteLine($"Gen: #{min} => [ {min} {pos2} {pos3} {pos4} {pos5} {pos6} ] --> {Count}");
                             }
-                            index5 = 0;
-                            index4++;
+                            index6 = 0;
+                            index5++;
                         }
-                        index4 = 0;
-                        index3++;
+                        index5 = 0;
+                        index4++;
                     }
-                    index3 = 0;
-                    index2++;
+                    index4 = 0;
+                    index3++;
                 }
-                index2 = 0;
-                index1++;
+                index3 = 0;
+                index2++;
+
+                //index2 = 0;
+                //index1++;
+
             }
             Pools.AddRange(pools);
             //Pools = pools.Except(Pools).ToList();
