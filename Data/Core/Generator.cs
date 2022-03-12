@@ -214,6 +214,7 @@ namespace Loteria.Data.Core
                                     var found = pools.Any(x => x.SortedList().SequenceEqual(sorted));
                                     if (found)
                                     {
+                                        Console.WriteLine($"Please wait... Skipping repeated combinations! This will take a while...");
                                         continue;
                                     }
 
