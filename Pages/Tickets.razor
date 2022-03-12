@@ -1,0 +1,33 @@
+﻿@page "/tickets"
+
+@using Loteria.Data.Core
+@using Loteria.Data.Models
+@using Loteria.Data.Services
+
+@inject LotoServices LotoServices
+
+<PageTitle>Tickets</PageTitle>
+
+<div class="">
+    <LotoTable Title="Formula de Pedro" Lotos=@LotosPedro Description="Generación de numeros de 10 en 10 cada 2 posiciones." />
+    <LotoTable Title="Formula 1" Lotos=@LotosRafa Description="Generación del 1 al 38" />
+</div>
+
+@code {
+    List<Loto> LotosPedro = new();
+    List<Loto> LotosRafa = new();
+
+    protected override void OnInitialized()
+    {
+        Generator gen = new();
+
+        /// Jugada de Pedro
+        LotosPedro = gen.FormulaDePedro(5);
+
+        /// Jugada de Rafa
+        LotosRafa = gen.Gen1To38();
+
+        //Lotos = LotoServices.GetAllTickets();
+        base.OnInitialized();
+    }
+}

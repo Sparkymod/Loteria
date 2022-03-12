@@ -1,0 +1,112 @@
+﻿@page "/"
+@using Loteria.Data.Core
+@using Loteria.Data.Models
+
+<PageTitle>Index</PageTitle>
+
+<div>
+    <h1>Información.</h1>
+    <hr />
+    <h2>Loto Mas</h2>
+    <p>
+        Los sorteos se celebran <strong>dos veces a la semana</strong>,
+        los <strong>miércoles y sábados a las 20:55 de la hora local</strong>
+        y se retransmiten en directo por la televisión y las emisoras de radio nacionales.
+    </p>
+    <p>
+        El boleto tiene un coste de <strong>20 RD$</strong>, pero tienes la obligación de participar en Loto,
+        con un coste de 30 RD$, por lo que el precio conjunto del billete acaba ascendiendo a <strong>50 RD$</strong>.
+    </p>
+    
+    <br />
+    <br />
+    <b>Regla de Laplace:</b> en el caso de que todos los resultados de un experimento aleatorio sean equiprobables,
+    Laplace define la probabilidad de un suceso A como el cociente entre el número de resultados favorables a que ocurra el suceso A en el experimento
+    y el número de resultados posibles del experimento.
+
+    <br />
+    <br />
+    Así, podemos resumirlo con la siguiente fórmula:
+    <img src="img/formula_laplace.png" />
+
+    <br />
+    <br />
+    Si lanzamos un dado y consideramos el suceso A="obtener un 3", tenemos que:
+
+    <br />
+    Casos favorables a A={3} = 1
+    Total de casos posibles={1,2,3,4,5,6} = 6
+
+    <br />
+    <br />
+    Por tanto, la probabilidad del suceso A sería:
+    <img src="img/psobrea_math_6.1.gif" />
+
+    <br />
+    <br />
+    La siguiente línea nos va a sevir para clasificar los sucesos según su probabilidad:
+    <br />
+    <img src="img/lineaprobabilidad.gif" />
+
+    <br />
+    <br />
+    <h4>Hablemos de la lotería</h4>
+    Un ticket esta constituido por 6 numeros aleatorios del 1 al 38 y definimos cada numero como <i>una posición en el ticket</i> pero solo sirve de referencia para enumerar los numeros.
+    Es decir. el ticket {04-08-02-31-25-22} si nos referimos a la <b>posición 4</b>, estamos hablando del numero <b>{31}</b>.
+    <p>Ya sabemos que la probabilidad de sacar 1 numero en cualquier posición es: <img src="img/pa_loto.png" /></p>
+    <img src="img/probabilidad.png" />
+
+    <br />
+    <br />
+    <b>Tomando en cuenta las formas de ganar, serán calculados desde los 3 numeros en adelante.</b>
+    <p>Dicho esto, tenemos las siguientes probabilidades:</p>
+    <table>
+        <tbody>
+            <tr>
+                <th>Números acertados</th>
+                <th>Probabilidades de ganar</th>
+                <th>Probabilidades de ganar (%)</th>
+            </tr>
+            <tr>
+                <td>6, más el complementario</td>
+                <td>1 entre 27.606.810</td>
+                <td>@seven</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>1 entre 2.760.681</td>
+                <td>@six</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>1 entre 14.379</td>
+                <td>@five</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>1 entre 371</td>
+                <td>@four</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>1 entre 28</td>
+                <td>@three</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@code {
+    public string lotoInfo = string.Empty;
+    public string seven = (1 / 27606810f / 0.01f).ToString("N7");
+    public string six = (1 / 2760681f / 0.01f).ToString("N7");
+    public string five = (1 / 14379f / 0.01f).ToString("N7");
+    public string four = (1 / 371f / 0.01f).ToString("N7");
+    public string three = (1 / 28f / 0.01f).ToString("N7");
+
+    protected override void OnInitialized()
+    {
+        lotoInfo = "";
+        base.OnInitialized();
+    }
+}

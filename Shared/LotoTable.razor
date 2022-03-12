@@ -1,0 +1,41 @@
+﻿@using Loteria.Data.Models
+
+<h3>@Title</h3>
+
+<div class="columns is-multiline is-vcentered is-mobile lg-line fit-content-div">
+    <div class="column is-6 lg-date">
+        <span class="lg-day">
+            <strong>Dia</strong>
+        </span>
+    </div>
+    <div class="column is-6 lg-date has-text-right">
+        <strong>Fecha.</strong>
+        Año
+    </div>
+    <div class="column is-12 lg-center-flex">
+        @Description
+        @foreach (Loto loto in Lotos)
+        {
+            <ul class="lg-numbers-small">
+                <li class="lg-number">@loto.Numero1</li>
+                <li class="lg-number">@loto.Numero2</li>
+                <li class="lg-number">@loto.Numero3</li>
+                <li class="lg-number">@loto.Numero4</li>
+                <li class="lg-number">@loto.Numero5</li>
+                <li class="lg-number">@loto.Numero6</li>
+                <li class="lg-number lg-reversed">@loto.Mas</li>
+            </ul>
+        }
+    </div>
+    <div class="column is-12 lg-draw-additional">
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public string Title { get; set; } = "";
+    [Parameter]
+    public string Description { get; set; } = "";
+    [Parameter]
+    public List<Loto> Lotos { get; set; } = new();
+}

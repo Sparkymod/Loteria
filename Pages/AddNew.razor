@@ -1,0 +1,53 @@
+﻿@page "/addnew"
+
+@using Loteria.Data.Core
+@using Loteria.Data.Models
+@using Loteria.Data.Services
+@using Microsoft.AspNetCore.Mvc
+
+@inject LotoServices LotoServices
+
+Insertar Ticket generado por la lotería el día del sorteo.
+
+<input type="date" @bind=@NewLoto.Fecha />
+
+<div class="columns is-multiline is-vcentered is-mobile lg-line fit-content-div">
+    <div class="column is-6 lg-date">
+        <span class="lg-day">
+            <strong>Dia</strong>
+        </span>
+    </div>
+    <div class="column is-6 lg-date has-text-right">
+        <strong>Fecha.</strong>
+        Año
+    </div>
+    <div class="column is-12 lg-center-flex">
+        <label>
+            Ticket:
+            <input type="number" style="width: 5rem;" name="leidsa" min="1" max="38" @bind=@NewLoto.Numero1 />
+            <input type="number" style="width: 5rem;" name="leidsa" min="1" max="38" @bind=@NewLoto.Numero2 />
+            <input type="number" style="width: 5rem;" name="leidsa" min="1" max="38" @bind=@NewLoto.Numero3 />
+            <input type="number" style="width: 5rem;" name="leidsa" min="1" max="38" @bind=@NewLoto.Numero4 />
+            <input type="number" style="width: 5rem;" name="leidsa" min="1" max="38" @bind=@NewLoto.Numero5 />
+            <input type="number" style="width: 5rem;" name="leidsa" min="1" max="38" @bind=@NewLoto.Numero6 />
+            <input type="number" style="width: 5rem;" name="leidsa" min="1" max="38" @bind=@NewLoto.Mas />
+            <input type="number" style="width: 5rem;" name="leidsa" min="1" max="38" @bind=@NewLoto.SuperMas />
+        </label>
+    </div>
+    <div class="column is-12 lg-draw-additional">
+        <button type="submit" @onclick=@( () => OnSubmit())>Agregar</button>
+    </div>
+    @Message
+</div>
+
+@code {
+    [BindProperty]
+    public Loto NewLoto { get; set; } = new();
+    public string Message { get; set; } = string.Empty;
+
+    private void OnSubmit()
+    {
+        LotoServices.AddLoto(NewLoto);
+        Message = $"Agregado con exito! Ticket: {NewLoto}";
+    }
+}
