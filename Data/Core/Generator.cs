@@ -131,15 +131,15 @@ namespace Loteria.Data.Core
             sw.Start();
             byte max = 38;
             // Generacion de 6 posiciones con rangos de 38 numeros
-            tasks.Add(Task.Run(() => GenerateWithinRange(1, max)));
-            tasks.Add(Task.Run(() => GenerateWithinRange(2, max)));
-            tasks.Add(Task.Run(() => GenerateWithinRange(3, max)));
-            tasks.Add(Task.Run(() => GenerateWithinRange(4, max)));
-            tasks.Add(Task.Run(() => GenerateWithinRange(5, max)));
-            tasks.Add(Task.Run(() => GenerateWithinRange(6, max)));
-            tasks.Add(Task.Run(() => GenerateWithinRange(7, max)));
-            tasks.Add(Task.Run(() => GenerateWithinRange(8, max)));
-            tasks.Add(Task.Run(() => GenerateWithinRange(9, max)));
+            //tasks.Add(Task.Run(() => GenerateWithinRange(1, max)));
+            //tasks.Add(Task.Run(() => GenerateWithinRange(2, max)));
+            //tasks.Add(Task.Run(() => GenerateWithinRange(3, max)));
+            //tasks.Add(Task.Run(() => GenerateWithinRange(4, max)));
+            //tasks.Add(Task.Run(() => GenerateWithinRange(5, max)));
+            //tasks.Add(Task.Run(() => GenerateWithinRange(6, max)));
+            //tasks.Add(Task.Run(() => GenerateWithinRange(7, max)));
+            //tasks.Add(Task.Run(() => GenerateWithinRange(8, max)));
+            //tasks.Add(Task.Run(() => GenerateWithinRange(9, max)));
             tasks.Add(Task.Run(() => GenerateWithinRange(10, max)));
             tasks.Add(Task.Run(() => GenerateWithinRange(11, max)));
             tasks.Add(Task.Run(() => GenerateWithinRange(12, max)));
@@ -169,10 +169,11 @@ namespace Loteria.Data.Core
             //task.Wait();
             var services = new LotoServices();
             int count = 1;
+
             foreach (var pool in Pools)
             {
                 Pool? temp = services.GetPool(count);
-                if (temp != null)
+                if (temp != null && temp.PoolId == count)
                 {
                     Console.WriteLine($"Skipping {count++}");
                     continue;
@@ -181,6 +182,25 @@ namespace Loteria.Data.Core
                 Console.WriteLine($"Success inserting {count++}");
             }
             Console.WriteLine($"Success in: {sw.Elapsed}");
+        }
+
+        private async void InsertGenerationIntoDB(byte gen)
+        {
+            var services = new LotoServices();
+            int count = 1;
+
+            foreach (var pool in Pools)
+            {
+                Pool? temp = services.GetPool(count);
+                if (temp != null && temp.PoolId == count)
+                {
+                    Console.WriteLine($"Skipping {count++}");
+                    continue;
+                }
+                services.AddPool(pool);
+                Console.WriteLine($"Success inserting {count++}");
+            }
+            await Task.CompletedTask;
         }
 
         int Count = 1;
@@ -250,8 +270,9 @@ namespace Loteria.Data.Core
 
                                 pools.Add(pool);
 
+                                Console.WriteLine($"Gen: #{min} => {Count}");
                                 Count++;
-                                Console.WriteLine($"Gen: #{min} => [ {min} {pos2} {pos3} {pos4} {pos5} {pos6} ] --> {Count}");
+                                
                             }
                             index6 = 0;
                             index5++;
@@ -269,6 +290,7 @@ namespace Loteria.Data.Core
                 //index1++;
 
             }
+
             Pools.AddRange(pools);
             //Pools = pools.Except(Pools).ToList();
             await Task.CompletedTask;
