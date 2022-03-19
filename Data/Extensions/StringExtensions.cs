@@ -32,5 +32,20 @@ namespace Loteria.Data.Extensions
         /// <param name="input"></param>
         /// <returns>Same <see langword="string"/> without any special char.</returns>
         public static string? RemoveSpecialChars(this string input) => input == null ? null : Regex.Replace(input, @"[^0-9a-zA-Z]", " ");
+
+        public static string? ToMonth(this int month) => 
+            month is 1 ? "Enero" : 
+            month is 2 ? "Febrero" : 
+            month is 3 ? "Marzo" : 
+            month is 4 ? "Abril" : 
+            month is 5 ? "Mayo" :
+            month is 6 ? "Junio" :
+            month is 7 ? "Julio" :
+            month is 8 ? "Agosto" :
+            month is 9 ? "Septiembre" :
+            month is 10 ? "Octubre" :
+            month is 11 ? "Noviembre" :
+            month is 12 ? "Diciembre" : "Not Valid Month";
+        
     }
 }

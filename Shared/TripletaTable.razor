@@ -1,0 +1,45 @@
+﻿@using Loteria.Data.Extensions
+@using Loteria.Data.Models
+
+<h3>@Title</h3>
+@Description
+<div class="columns is-multiline is-vcentered is-mobile lg-line fit-content-div">
+    <div>
+        Probabilidades en base a @Tickets son => <b> @probability% </b>
+    </div>
+    <div class="column is-12 lg-center-flex">
+        @foreach (Tripleta tripleta in Tripletas)
+        {
+            <ul class="lg-numbers-small">
+                <li class="lg-number">@tripleta.Numero1</li>
+                <li class="lg-number">@tripleta.Numero2</li>
+                <li class="lg-number">@tripleta.Numero3</li>
+            </ul>
+        }
+    </div>
+    <div class="column is-12 lg-draw-additional">
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "";
+    [Parameter]
+    public string Description { get; set; } = "";
+    [Parameter]
+    public List<Tripleta> Tripletas { get; set; } = new();
+    [Parameter]
+    public float Tickets { get; set; } = 1;
+    [Parameter]
+    public float TripletasInDb { get; set; }
+
+    float tripletaProbabilty = 161700f;
+
+    string probability = "";
+
+    protected override void OnInitialized()
+    {
+        probability = ((1 / (tripletaProbabilty - TripletasInDb ) * Tickets) / 0.01f).ToString("N7");
+        base.OnInitialized();
+    }
+}

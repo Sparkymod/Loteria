@@ -5,34 +5,28 @@ namespace Loteria.Data.Services
 {
     public class LotoServices
     {
-        public List<Loto> GetAllTickets()
+        public List<T> GetAll<T>(string table)
         {
             using DatabaseManager context = new();
-            return context.Loto.GetAllLotos().ToList();
+            return context.Loto.GetAll<T>(table).ToList();
         }
 
-        public void AddPool(Pool pool)
+        public void AddPool<T>(string table, T pool)
         {
             using DatabaseManager context = new();
-            context.Loto.InsertPool(pool);
+            context.Loto.InsertPool(table, pool);
         }
 
-        internal Pool? GetPool(int poolId)
+        internal T? GetPool<T>(string table, int poolId)
         {
             using DatabaseManager context = new();
-            return context.Loto.GetPool(poolId);
+            return context.Loto.GetPool<T>(table, poolId);
         }
 
-        internal List<Pool> GetAllPool()
+        internal void Add<T>(string table, T loto)
         {
             using DatabaseManager context = new();
-            return context.Loto.GetAllPool().ToList();
-        }
-
-        internal void AddLoto(Loto loto)
-        {
-            using DatabaseManager context = new();
-            context.Loto.Add(loto);
+            context.Loto.Add(table, loto);
         }
     }
 }

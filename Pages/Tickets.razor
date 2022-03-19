@@ -1,6 +1,7 @@
 ﻿@page "/tickets"
 
 @using Loteria.Data.Core
+@using Loteria.Data.Helper
 @using Loteria.Data.Models
 @using Loteria.Data.Services
 
@@ -8,26 +9,46 @@
 
 <PageTitle>Tickets</PageTitle>
 
-<div class="">
-    <LotoTable Title="Formula de Pedro" Lotos=@LotosPedro Description="Generación de numeros de 10 en 10 cada 2 posiciones." />
-    <LotoTable Title="Formula 1" Lotos=@LotosRafa Description="Generación del 1 al 38" />
-</div>
+<LotoTable LotosInDb=@lotosInDb Tickets=4 Title="Formula de Pedro v1.2" Lotos=@LotosPedro Description="Generación de numeros de 10 en 10 cada 2 posiciones." />
+<LotoTable LotosInDb=@lotosInDb Tickets=6 Title="Generación automática." Lotos=@LotosRafa Description="Generación del 1 al 38" />
+<TripletaTable TripletasInDb=@tripletasInDb Tickets=10 Title="Titulo" Description="Generacion del 00 al 99 sin repetición." Tripletas=@Tripletas />
+
 
 @code {
     List<Loto> LotosPedro = new();
     List<Loto> LotosRafa = new();
+    List<Loto> LotosInDb = new();
 
-    protected override void OnInitialized()
+    List<Tripleta> Tripletas = new();
+
+    float tripletasInDb = 0f;
+    float lotosInDb = 0f;
+
+    Generator Gen = new();
+
+    protected override async Task OnInitializedAsync()
     {
-        Generator gen = new();
+        await LoadData();
+    }
 
+    private async Task LoadData()
+    {
+        int tickets = 4;
         /// Jugada de Pedro
-        LotosPedro = gen.FormulaDePedro(5);
+        LotosPedro = Gen.FormulaDePedro(tickets);
 
         /// Jugada de Rafa
-        LotosRafa = gen.Gen1To38();
+        LotosRafa = Gen.Gen1To38();
 
-        //Lotos = LotoServices.GetAllTickets();
-        base.OnInitialized();
+        /// Todos salidos anteriormente
+        LotosInDb = LotoServices.GetAll<Loto>("loto");
+
+        tripletasInDb = DataHelper.Instance.Tripletas.Count;
+        lotosInDb = DataHelper.Instance.Lotos.Count;
+
+        /// Tripletas
+        Tripletas = Gen.GenTripleta(10);
+
+        await Task.CompletedTask;
     }
 }

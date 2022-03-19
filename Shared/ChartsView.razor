@@ -1,0 +1,46 @@
+﻿@page "/charts"
+
+@using Loteria.Pages
+@using Microsoft.AspNetCore.Mvc
+
+<div class="container-flex" style="margin-bottom: 2vh;">
+    <!-- Views -->
+    <label>
+        Select the charts
+        <select @bind="@SelectedReport" class="form-inline input-sm">
+            <option value="1">Loto</option>
+            <option value="2">Tripleta</option>
+        </select>
+    </label>
+</div>
+
+<!-- Render Selection Fragment. -->
+            @BuildFragmentOfSelectedReport
+
+@code {
+    [BindProperty]
+    public int SelectedReport { get; set; } = 1;
+
+    public RenderFragment BuildFragmentOfSelectedReport => __builder =>
+    {
+        switch (SelectedReport)
+        {
+            case 1:
+                <LotoCharts />
+                break;
+            case 2:
+                <TripletaCharts />
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            default:
+                break;
+        }
+    };
+}

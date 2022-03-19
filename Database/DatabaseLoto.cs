@@ -1,4 +1,5 @@
 ﻿using Loteria.Data.Models;
+using SqlKata;
 using SqlKata.Execution;
 
 namespace Loteria.Database
@@ -10,14 +11,14 @@ namespace Loteria.Database
 
         }
 
-        public IEnumerable<Loto> GetAllLotos() => QueryFactory.Query(TableName).Select("*").Get<Loto>();
+        public IEnumerable<T> GetAll<T>(string table) => QueryFactory.Query(table).Select("*").Get<T>();
 
-        public IEnumerable<Pool> GetAllPool() => QueryFactory.Query("pool").Select("*").Get<Pool>();
+        public void InsertPool<T>(string table, T pool) => QueryFactory.Query(table).Insert(pool);
 
-        public void InsertPool(Pool pool) => QueryFactory.Query("pool").Insert(pool);
+        internal T? GetPool<T>(string table, int poolId) => QueryFactory.Query(table).Select("*").Where("PoolId", poolId).Get<T>().FirstOrDefault();
 
-        internal Pool? GetPool(int poolId) => QueryFactory.Query("pool").Select("*").Where("PoolId", poolId).Get<Pool>().FirstOrDefault();
+        internal T? GetTicket<T>(string table, DateTime fecha) => QueryFactory.Query(table).Select("*").Where("Fecha", fecha).Get<T>().FirstOrDefault();
 
-        internal void Add(Loto loto) => QueryFactory.Query(TableName).Insert(loto);
+        internal void Add<T>(string table, T loto) => QueryFactory.Query(table).Insert(loto);
     }
 }

@@ -47,7 +47,7 @@ Insertar Ticket generado por la lotería el día del sorteo.
 
     private void OnSubmit()
     {
-        LotoServices.AddLoto(NewLoto);
+        LotoServices.Add("loto", NewLoto);
         Message = $"Agregado con exito! Ticket: {NewLoto}";
     }
 }

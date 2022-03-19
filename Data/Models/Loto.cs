@@ -17,6 +17,13 @@
             Fecha = DateTime.Now;
         }
 
+        public byte[] SortedList()
+        {
+            var result = new byte[] { Numero1, Numero2, Numero3, Numero4, Numero5, Numero6 };
+            Array.Sort(result);
+            return result;
+        }
+
         public override string ToString() => $"{Numero1} {Numero2} {Numero3} {Numero4} {Numero5} {Numero6} {Mas} {SuperMas}";
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Loteria.Data.Extensions;
 using Loteria.Data.Services;
 using Loteria.Data.Core;
+using Radzen;
+using Loteria.Data.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,12 +22,6 @@ var app = builder.Build();
 
 DotEnv.Load();
 Settings.InitDatabase();
-Generator gen = new();
-gen.Start();
-
-//Extractor ext = new();
-//ext.ExecuteScript();
-
 
 app.UseStaticFiles();
 

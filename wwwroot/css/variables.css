@@ -1,0 +1,226 @@
+* {
+    --sushi: #abd200;
+    --cod-green: #08110a;
+    --woodland: #3a5523;
+    --yukon-gold: #5c6c04;
+    --stromboli: #376450;
+    --black-olive: #232f16;
+    --lochinvar: #68b587;
+    --camouflage: #343c10;
+    --timber-green: #1e3530;
+    --lightweight-purple: #ab90cb;
+    --purple: #674ea7;
+    --info: #17a2b8;
+    --bg-sidebar: #242e42;
+    /* SIDEBAR SECTION COLOR*/
+    --bg-sidebar-logo: #fff;
+    --c-sidebar-logo-name: #fff;
+    --bg-sidebar-nav-li-a-hover: #1d2636;
+    --c-sidebar-nav-li-a-i: #fff;
+    --c-sidebar-nav-li-a-name: #fff;
+    /* HOME SECTION COLOR*/
+    --bg-home-section: #f5f5f5;
+    --c-home-section-nav-sidebar-i: #fff;
+    --c-home-section-nav-sidebar-page: #fff;
+    --bg-home-section-nav-profile: #1d2636;
+    --bg-home-section-nav-profile-icon: #979da0;
+    --c-sidebar-nav-li-a-hover-content: #16c7ff;
+    /* ELEMENTS COLOR */
+    --td-color: white;
+    --th-bg-color: var(--info);
+    --th-color: #c9f5fc;
+    --navbar-bg: var(--info);
+    --navbar-color: white;
+    --bg-website: white;
+    --span-color: var(--info);
+    --status-color-ANSWERED: #53900f;
+    --status-color-BUSY: darkred;
+    --status-color-NOANSWER: darkorange;
+    --bs-success-rgb: rgb(44, 181, 126);
+    --bs-warning-rgb: rgb(245, 189, 88);
+    --bs-danger-rgb: rgb(245, 110, 80);
+}
+
+/* ANIMATIONS */
+@keyframes swing {
+    0%, 30%, 50%, 70%, 100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    10% {
+        -webkit-transform: rotate(10deg);
+        transform: rotate(10deg);
+    }
+
+    40% {
+        -webkit-transform: rotate(-10deg);
+        transform: rotate(-10deg);
+    }
+
+    60% {
+        -webkit-transform: rotate(5deg);
+        transform: rotate(5deg);
+    }
+
+    80% {
+        -webkit-transform: rotate(-5deg);
+        transform: rotate(-5deg);
+    }
+}
+
+@-webkit-keyframes swing {
+    0%, 30%, 50%, 70%, 100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    10% {
+        -webkit-transform: rotate(10deg);
+        transform: rotate(10deg);
+    }
+
+    40% {
+        -webkit-transform: rotate(-10deg);
+        transform: rotate(-10deg);
+    }
+
+    60% {
+        -webkit-transform: rotate(5deg);
+        transform: rotate(5deg);
+    }
+
+    80% {
+        -webkit-transform: rotate(-5deg);
+        transform: rotate(-5deg);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeOut {
+    0%, 50% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeOut {
+    0%, 50% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0;
+    }
+}
+
+    .elementToFadeInAndOut {
+        -webkit-animation: fadeOut 3s linear forwards;
+        animation: fadeOut 3s linear forwards;
+    }
+
+    @-webkit-keyframes fadeinout {
+        0%,100% {
+        opacity: 0;
+    }
+
+    75%, 100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeinout {
+    0%,100% {
+        opacity: 0;
+    }
+
+    75%, 100% {
+        opacity: 1;
+    }
+}
+
+.bg-danger.bg-soft {
+    background-color: rgba(245, 110, 80, 0.18) !important;
+}
+
+.bg-warning.bg-soft {
+    background-color: rgba(245, 189, 88, 0.18) !important;
+}
+
+.bg-success.bg-soft {
+    background-color: rgba(44, 181, 126, 0.18) !important;
+}
+
+.rounded-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+}
+
+.rounded-pill {
+    border-radius: 50rem !important;
+}
+
+.bg-danger {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.bg-warning {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.bg-success {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.text-danger {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
+}
+
+.text-warning {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-warning-rgb), var(--bs-text-opacity)) !important;
+}
+
+.text-success {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 500;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}

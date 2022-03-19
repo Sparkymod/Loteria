@@ -1,0 +1,97 @@
+﻿@using Loteria.Data.Core
+@using Loteria.Data.Models
+@using Loteria.Data.Services
+@using Radzen.Blazor
+
+@inject LotoServices LotoServices
+
+<p>Estadistica en base a los tickets generados desde el 2010 hasta hoy.</p>
+<div class="charts">
+    <div class="columns is-multiline is-vcentered is-mobile lg-line" style="align-items: flex-start">
+        <div class="column is-12 lg-center-flex">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Número</th>
+                        <th @onclick=@( () => SortBy())>Frecuencia</th>
+                        <th>Porcentaje(%)</th>
+                    </tr>
+                    @for (int i = 0; i <= 37; i++)
+                    {
+                        <tr>
+                            <td>@string.Format("{0,2:00}", @Data[i].Number)</td>
+                            <td>@Data[i].Frequency</td>
+                            <td><b>@Data[i].Percentage.ToString("N2")% </b></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int YearSelected { get; set; } = 2022;
+
+    List<Loto> Lotos = new();
+
+    List<DataItem> Data = new();
+    List<DataItem> DataYear = new();
+
+    int[] FrequencyOfNumbers = new int[38];
+    bool pressed;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    protected override void OnParametersSet()
+    {
+        var test = Lotos.FindAll(x => x.Fecha.Year == YearSelected).ToList();
+        base.OnParametersSet();
+    }
+
+    public void SortBy()
+    {
+        pressed = !pressed;
+        if (pressed)
+        {
+            Data = Data.OrderByDescending(x => x.Frequency).ToList();
+        }
+        else
+        {
+            Data = Data.OrderBy(x => x.Frequency).ToList();
+        }
+        StateHasChanged();
+    }
+
+    private async Task LoadData()
+    {
+        Generator gen = new();
+
+        /// Todos salidos anteriormente
+        string table = "loto";
+        Lotos = LotoServices.GetAll<Loto>(table);
+
+        float count = Lotos.Count;
+
+        FrequencyOfNumbers = gen.GetFrequentNumber(Lotos);
+
+        for (int i = 0; i < 38; i++)
+        {
+            int num = FrequencyOfNumbers[i];
+            Data.Add(new DataItem() { Frequency = num, Number = i + 1, Percentage = (num / count) * 100f });
+        }
+
+        await Task.CompletedTask;
+    }
+
+    public class DataItem
+    {
+        public int Frequency { get; set; }
+        public int Number { get; set; }
+        public float Percentage { get; set; }
+    }
+}
