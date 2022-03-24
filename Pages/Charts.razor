@@ -16,8 +16,8 @@
             <table class="table">
                 <tbody>
                     <tr>
-                        <th @onclick=@( () => SortBy(0))>Número</th>
-                        <th @onclick=@( () => SortBy(1))>Frecuencia</th>
+                        <th style="cursor: pointer;" @onclick=@( () => SortBy(0))>Número</th>
+                        <th style="cursor: pointer;" @onclick=@( () => SortBy(1))>Frecuencia</th>
                         <th>Porcentaje(%)</th>
                     </tr>
                     @foreach (NumberData data in Data)
@@ -42,20 +42,19 @@
 
     bool pressed;
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         switch (SelectedTicket)
         {
             case 0:
-                Data = DataHelper.Instance.GetLotoData().ToList();
+                Data = await DataHelper.Instance.GetLotoData();
                 break;
             case 1:
-                Data = DataHelper.Instance.GetTripletaData().ToList();
+                Data = await DataHelper.Instance.GetTripletaData();
                 break;
             default:
                 break;
         }
-        base.OnParametersSet();
     }
 
     public void SortBy(int number)

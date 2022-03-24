@@ -9,7 +9,7 @@ namespace Loteria.Data.Extensions
             List<Type> serviceClassList = Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract && t.IsClass && t.Namespace == @namespace && t.Name.EndsWith("Services")).ToList();
             foreach (Type service in serviceClassList)
             {
-                services.AddTransient(service);
+                services.AddScoped(service);
             }
         }
     }

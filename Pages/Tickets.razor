@@ -39,16 +39,11 @@
 
     Generator Gen = new();
 
-    protected override Task OnInitializedAsync()
+    private RenderFragment RenderSelection => __builder =>
     {
         tripletasInDb = DataHelper.Instance.Tripletas.Count;
         lotosInDb = DataHelper.Instance.Lotos.Count;
 
-        return base.OnInitializedAsync();
-    }
-
-    private RenderFragment RenderSelection => __builder =>
-    {
         switch (SelectedReport)
         {
             case 1:

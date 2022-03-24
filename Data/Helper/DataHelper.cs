@@ -12,8 +12,8 @@ namespace Loteria.Data.Helper
 
         private readonly Generator _generator = new();
 
-        public IReadOnlyCollection<Loto> Lotos { get; set; }
-        public IReadOnlyCollection<Tripleta> Tripletas { get; set; }
+        public List<Loto> Lotos { get; set; }
+        public List<Tripleta> Tripletas { get; set; }
         
         public DataHelper()
         {
@@ -25,7 +25,7 @@ namespace Loteria.Data.Helper
             }
         }
 
-        public IReadOnlyCollection<NumberData> GetTripletaData()
+        public Task<List<NumberData>> GetTripletaData()
         {
             List<NumberData> data = new();
             float count = Tripletas.Count;
@@ -35,13 +35,14 @@ namespace Loteria.Data.Helper
             for (int i = 0; i <= 99; i++)
             {
                 int num = frequencyOfNumbers[i];
-                data.Add(new NumberData() { Frequency = num, Number = i, Percentage = (num / count) * 100f });
+                var item = new NumberData() { Frequency = num, Number = i, Percentage = (num / count) * 100f };
+                data.Add(item);
             }
 
-            return data;
+            return Task.FromResult(data);
         }
 
-        public IReadOnlyCollection<NumberData> GetLotoData()
+        public Task<List<NumberData>> GetLotoData()
         {
             List<NumberData> data = new();
             float count = Lotos.Count;
@@ -51,10 +52,11 @@ namespace Loteria.Data.Helper
             for (int i = 0; i < 38; i++)
             {
                 int num = frequencyOfNumbers[i];
-                data.Add(new NumberData() { Frequency = num, Number = i + 1, Percentage = (num / count) * 100f });
+                var item = new NumberData() { Frequency = num, Number = i + 1, Percentage = (num / count) * 100f };
+                data.Add(item);
             }
 
-            return data;
+            return Task.FromResult(data);
         }
     }
 }
