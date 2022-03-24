@@ -9,6 +9,61 @@ namespace Loteria.Data.Core
 {
     public class Generator : MathHelper
     {
+
+        /// <summary>
+        /// Generacion de loto, del 1 al 38 y verificando que no se repita en la base de dato.
+        /// </summary>
+        public List<Loto> GenWithoutRepeating(int maxTickets = 6)
+        {
+            List<Loto> lotos = new();
+
+            for (int i = 0; i < maxTickets; i++)
+            {
+                Loto newLoto = new();
+                bool flag = true;
+
+                while (flag)
+                {
+                    while (newLoto.Numero1 == 0 || CheckForRepeat(lotos, newLoto.Numero1))
+                    {
+                        newLoto.Numero1 = NewNumber(1,6);
+                    }
+                    while (newLoto.Numero2 == 0 || newLoto.Numero1 == newLoto.Numero2 || CheckForRepeat(lotos, newLoto.Numero2))
+                    {
+                        newLoto.Numero2 = NewNumber(7,12);
+                    }
+                    while (newLoto.Numero3 == 0 || newLoto.Numero1 == newLoto.Numero3 || newLoto.Numero2 == newLoto.Numero3 || CheckForRepeat(lotos, newLoto.Numero3))
+                    {
+                        newLoto.Numero3 = NewNumber(13,18);
+                    }
+                    while (newLoto.Numero4 == 0 || newLoto.Numero1 == newLoto.Numero4 || newLoto.Numero2 == newLoto.Numero4 || newLoto.Numero3 == newLoto.Numero4 || CheckForRepeat(lotos, newLoto.Numero4))
+                    {
+                        newLoto.Numero4 = NewNumber(19,24);
+                    }
+                    while (newLoto.Numero5 == 0 || newLoto.Numero1 == newLoto.Numero5 || newLoto.Numero2 == newLoto.Numero5 || newLoto.Numero3 == newLoto.Numero5 || newLoto.Numero4 == newLoto.Numero5 || CheckForRepeat(lotos, newLoto.Numero5))
+                    {
+                        newLoto.Numero5 = NewNumber(25,30);
+                    }
+                    while (newLoto.Numero6 == 0 || newLoto.Numero1 == newLoto.Numero6 || newLoto.Numero2 == newLoto.Numero6 || newLoto.Numero3 == newLoto.Numero6 || newLoto.Numero4 == newLoto.Numero6 || newLoto.Numero5 == newLoto.Numero6 || CheckForRepeat(lotos, newLoto.Numero6))
+                    {
+                        newLoto.Numero6 = NewNumber(31,38);
+                    }
+
+                    if (!CheckForRepeatInDb(newLoto))
+                    {
+                        flag = false;
+                    }
+                }
+
+
+                newLoto.Mas = (byte)Random.Next(MASMIN, MASMAX);
+
+                lotos.Add(newLoto);
+            }
+
+            return lotos;
+        }
+
         /// <summary>
         /// Generacion de loto, del 1 al 38 y verificando que no se repita en la base de dato.
         /// </summary>

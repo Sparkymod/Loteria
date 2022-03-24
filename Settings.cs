@@ -193,7 +193,7 @@ namespace Loteria
                 writer.WriteLine("DB_NAME=dbName");
                 writer.WriteLine("DB_USER=root");
                 writer.WriteLine("DB_PASSWORD=admin");
-                writer.WriteLine("DEVELOPMENT=true");
+                writer.WriteLine("DEVELOPMENT=false");
                 writer.WriteLine("USE_URL=http://localhost:5000");
                 writer.Close();
             }
@@ -214,6 +214,6 @@ namespace Loteria
     public static class Paths
     {
         public static readonly string SOLUTION_DIR = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../.."));
-        public static readonly string PRODUCTION_DIR = "../";
+        public static readonly string PRODUCTION_DIR = Environment.CurrentDirectory;
     }
 }

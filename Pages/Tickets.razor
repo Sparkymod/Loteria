@@ -4,21 +4,34 @@
 @using Loteria.Data.Helper
 @using Loteria.Data.Models
 @using Loteria.Data.Services
+@using Microsoft.AspNetCore.Mvc
 
 @inject LotoServices LotoServices
 
 <PageTitle>Tickets</PageTitle>
 
-<LotoTable LotosInDb=@lotosInDb Tickets=4 Title="Formula de Pedro v1.2" Lotos=@LotosPedro Description="Generación de numeros de 10 en 10 cada 2 posiciones." />
-<LotoTable LotosInDb=@lotosInDb Tickets=6 Title="Generación automática." Lotos=@LotosRafa Description="Generación del 1 al 38" />
-<TripletaTable TripletasInDb=@tripletasInDb Tickets=10 Title="Titulo" Description="Generacion del 00 al 99 sin repetición." Tripletas=@Tripletas />
+<div class="container-flex" style="margin-bottom: 2vh;">
+    <!-- Views -->
+    <label>
+        Selecciona la formula:
+        <select @bind="@SelectedReport" class="form-inline input-sm">
+            <option value="1">Generación Automática.</option>
+            <option value="2">Generación de 6 combinaciones únicas.</option>
+            <option value="3">Formula de Pedro</option>
+            <option value="4">Tripleta</option>
+        </select>
+    </label>
+</div>
+
+<!-- Render Selection Fragment. -->
+            @RenderSelection
 
 
 @code {
-    List<Loto> LotosPedro = new();
-    List<Loto> LotosRafa = new();
-    List<Loto> LotosInDb = new();
+    [BindProperty]
+    public int SelectedReport { get; set; } = 1;
 
+    List<Loto> Lotos = new();
     List<Tripleta> Tripletas = new();
 
     float tripletasInDb = 0f;
@@ -26,29 +39,36 @@
 
     Generator Gen = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
-        await LoadData();
-    }
-
-    private async Task LoadData()
-    {
-        int tickets = 4;
-        /// Jugada de Pedro
-        LotosPedro = Gen.FormulaDePedro(tickets);
-
-        /// Jugada de Rafa
-        LotosRafa = Gen.Gen1To38();
-
-        /// Todos salidos anteriormente
-        LotosInDb = LotoServices.GetAll<Loto>("loto");
-
         tripletasInDb = DataHelper.Instance.Tripletas.Count;
         lotosInDb = DataHelper.Instance.Lotos.Count;
 
-        /// Tripletas
-        Tripletas = Gen.GenTripleta(10);
-
-        await Task.CompletedTask;
+        return base.OnInitializedAsync();
     }
+
+    private RenderFragment RenderSelection => __builder =>
+    {
+        switch (SelectedReport)
+        {
+            case 1:
+                /// Jugada de Rafa
+                Lotos = Gen.Gen1To38();
+                <LotoTable LotosInDb=@lotosInDb Tickets=6 Title="Generación automática." Lotos=@Lotos Description="Generación del 1 al 38" />
+                break;
+            case 2:
+                Lotos = Gen.GenWithoutRepeating();
+                <LotoTable LotosInDb=@lotosInDb Tickets=6 Title="Generación automática de 6 tickets con todos los numeros." Lotos=@Lotos Description="Generación del 1 al 38 sin repetición" />
+                break;
+            case 3:
+                /// Jugada de Pedro
+                Lotos = Gen.FormulaDePedro();
+                <LotoTable LotosInDb=@lotosInDb Tickets=4 Title="Formula de Pedro v1.2" Lotos=@Lotos Description="Generación de numeros de 10 en 10 cada 2 posiciones." />
+                break;
+            case 4:
+                Tripletas = Gen.GenTripleta(10);
+                <TripletaTable TripletasInDb=@tripletasInDb Tickets=10 Title="Titulo" Description="Generacion del 00 al 99 sin repetición." Tripletas=@Tripletas />
+                break;
+        }
+    };
 }

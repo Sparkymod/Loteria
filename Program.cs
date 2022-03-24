@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddAllServicesAvailable();
+builder.WebHost.UseUrls(Settings.GetURL());
 
 builder.Host.UseSerilog(Settings.InitializeSerilog());
 
@@ -23,6 +24,12 @@ var app = builder.Build();
 DotEnv.Load();
 Settings.InitDatabase();
 
+//Extractor ext = new();
+//ext.Start();
+
+_ = DataHelper.Instance;
+
+app.UsePathBase("/loto");
 app.UseStaticFiles();
 
 app.UseRouting();

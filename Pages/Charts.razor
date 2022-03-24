@@ -1,0 +1,79 @@
+﻿@using Loteria.Data.Core
+@using Loteria.Data.Helper
+@using Loteria.Data.Models
+@using Loteria.Data.Services
+@using Loteria.Database.Pagination
+@using Microsoft.AspNetCore.Mvc
+@using Radzen
+@using Radzen.Blazor
+
+@inject LotoServices LotoServices
+
+<p>Estadistica en base a los tickets generados desde el 2010 hasta hoy.</p>
+<div class="charts">
+    <div class="columns is-multiline is-vcentered is-mobile lg-line" style="align-items: flex-start">
+        <div class="column is-12 lg-center-flex">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th @onclick=@( () => SortBy(0))>Número</th>
+                        <th @onclick=@( () => SortBy(1))>Frecuencia</th>
+                        <th>Porcentaje(%)</th>
+                    </tr>
+                    @foreach (NumberData data in Data)
+                    {
+                        <tr>
+                            <td>@string.Format("{0,2:00}", @data.Number)</td>
+                            <td>@data.Frequency</td>
+                            <td><b>@data.Percentage.ToString("N2")% </b></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int SelectedTicket { get; set; }
+
+    List<NumberData> Data = new();
+
+    bool pressed;
+
+    protected override void OnParametersSet()
+    {
+        switch (SelectedTicket)
+        {
+            case 0:
+                Data = DataHelper.Instance.GetLotoData().ToList();
+                break;
+            case 1:
+                Data = DataHelper.Instance.GetTripletaData().ToList();
+                break;
+            default:
+                break;
+        }
+        base.OnParametersSet();
+    }
+
+    public void SortBy(int number)
+    {
+        pressed = !pressed;
+
+        switch (number)
+        {
+            case 0:
+                Data = pressed ? Data.OrderByDescending(x => x.Number).ToList() : Data.OrderBy(x => x.Number).ToList();
+                break;
+            case 1:
+                Data = pressed ? Data.OrderByDescending(x => x.Frequency).ToList() : Data.OrderBy(x => x.Frequency).ToList();
+                break;
+            default:
+                break;
+        }
+
+        StateHasChanged();
+    }
+}

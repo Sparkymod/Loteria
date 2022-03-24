@@ -40,9 +40,9 @@
 
     string probability = "";
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
         probability = ((1 / (lotoProbabilty - LotosInDb) * Tickets) / 0.01f).ToString("N7");
-        base.OnInitialized();
+        base.OnParametersSet();
     }
 }

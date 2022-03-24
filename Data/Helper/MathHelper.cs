@@ -10,7 +10,7 @@ namespace Loteria.Data.Helper
 
         protected Random Random { get; set; } = new();
 
-        protected byte NewNumber(byte min = 1, byte max = 38) => (byte)Random.Next(min, max);
+        protected byte NewNumber(byte min = 1, byte max = 38) => (byte)Random.Next(min, max+1);
 
         #region Methods Helpers
         /// <summary>
@@ -46,7 +46,7 @@ namespace Loteria.Data.Helper
         /// <summary>
         /// Get Frequent number from all lotos.
         /// </summary>
-        public int[] GetFrequentNumber(List<Loto> lotos)
+        public int[] GetFrequentNumber(IReadOnlyCollection<Loto> lotos)
         {
             int[] tempPercentage = new int[38];
 
@@ -68,7 +68,7 @@ namespace Loteria.Data.Helper
         /// <summary>
         /// Get Frequent number from all Tripletas.
         /// </summary>
-        public int[] GetFrequentNumber(List<Tripleta> tripletas)
+        public int[] GetFrequentNumber(IReadOnlyCollection<Tripleta> tripletas)
         {
             int[] tempPercentage = new int[100];
 
@@ -115,25 +115,6 @@ namespace Loteria.Data.Helper
                 return false;
             }
             return true;
-        }
-
-        public List<byte[]> CheckSort(Loto ticket, byte[] list, byte Numero6)
-        {
-            List<byte[]> lista = new List<byte[]>();
-
-            // 6
-            lista.Add(new byte[] { ticket.Numero1, ticket.Numero2, ticket.Numero3, ticket.Numero4, ticket.Numero5, ticket.Numero6 });
-            // 5
-            lista.Add(new byte[] { ticket.Numero1, ticket.Numero2, ticket.Numero3, ticket.Numero4, ticket.Numero5 });
-            lista.Add(new byte[] { ticket.Numero1, ticket.Numero2, ticket.Numero3, ticket.Numero4, ticket.Numero6 });
-            lista.Add(new byte[] { ticket.Numero1, ticket.Numero2, ticket.Numero3, ticket.Numero6, ticket.Numero5 });
-            lista.Add(new byte[] { ticket.Numero1, ticket.Numero2, ticket.Numero6, ticket.Numero4, ticket.Numero5 });
-            lista.Add(new byte[] { ticket.Numero1, ticket.Numero6, ticket.Numero3, ticket.Numero4, ticket.Numero5 });
-            lista.Add(new byte[] { ticket.Numero6, ticket.Numero2, ticket.Numero3, ticket.Numero4, ticket.Numero5 });
-
-            lista.ForEach(numbers => Array.Sort(numbers));
-
-            return lista;
         }
 
         public int Permutation(int number)
