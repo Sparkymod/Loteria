@@ -28,6 +28,22 @@ namespace Loteria.Data.Helper
             return false;
         }
 
+        protected bool CheckForRepeatMas(List<Loto> lotos, byte number)
+        {
+            foreach (var loto in lotos)
+            {
+                if (loto.Mas == number)
+                {
+                    return true;
+                }
+                else if (lotos.Count == number)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// Method used for <seealso cref="Tripleta"/> to verify repeated numbers.
         /// </summary>

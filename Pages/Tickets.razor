@@ -15,12 +15,13 @@
     <label>
         Selecciona la formula:
         <select @bind="@SelectedReport" class="form-inline input-sm">
-            <option value="1">Generación Automática.</option>
+            @*<option value="1">Generación Automática.</option>*@
             <option value="2">Generación de 6 combinaciones únicas.</option>
-            <option value="3">Formula de Pedro</option>
+            @*<option value="3">Formula de Pedro</option>*@
             <option value="4">Tripleta</option>
         </select>
     </label>
+    <input type="number" style="width: 5rem;" name="leidsa" min="1" max="38" @bind=@tickets />
 </div>
 
 <!-- Render Selection Fragment. -->
@@ -29,7 +30,10 @@
 
 @code {
     [BindProperty]
-    public int SelectedReport { get; set; } = 1;
+    public int SelectedReport { get; set; } = 2;
+
+    public byte tickets = 6;
+    public string Message { get; set; } = string.Empty;
 
     List<Loto> Lotos = new();
     List<Tripleta> Tripletas = new();
@@ -39,31 +43,54 @@
 
     Generator Gen = new();
 
+    private void OnSubmit()
+    {
+
+    }
+
     private RenderFragment RenderSelection => __builder =>
     {
         tripletasInDb = DataHelper.Instance.Tripletas.Count;
         lotosInDb = DataHelper.Instance.Lotos.Count;
-
+        GenerateTickets();
+        
         switch (SelectedReport)
         {
             case 1:
                 /// Jugada de Rafa
-                Lotos = Gen.Gen1To38();
-                <LotoTable LotosInDb=@lotosInDb Tickets=6 Title="Generación automática." Lotos=@Lotos Description="Generación del 1 al 38" />
+                <LotoTable LotosInDb=@lotosInDb Tickets=tickets Title="Generación automática." Lotos=@Lotos Description="Generación del 1 al 38" />
                 break;
             case 2:
-                Lotos = Gen.GenWithoutRepeating();
-                <LotoTable LotosInDb=@lotosInDb Tickets=6 Title="Generación automática de 6 tickets con todos los numeros." Lotos=@Lotos Description="Generación del 1 al 38 sin repetición" />
+                <LotoTable LotosInDb=@lotosInDb Tickets=tickets Title="Generación automática de 6 tickets con todos los numeros." Lotos=@Lotos Description="Generación del 1 al 38 sin repetición" />
                 break;
             case 3:
                 /// Jugada de Pedro
-                Lotos = Gen.FormulaDePedro();
-                <LotoTable LotosInDb=@lotosInDb Tickets=4 Title="Formula de Pedro v1.2" Lotos=@Lotos Description="Generación de numeros de 10 en 10 cada 2 posiciones." />
+                <LotoTable LotosInDb=@lotosInDb Tickets=tickets Title="Formula de Pedro v1.2" Lotos=@Lotos Description="Generación de numeros de 10 en 10 cada 2 posiciones." />
                 break;
             case 4:
-                Tripletas = Gen.GenTripleta(10);
-                <TripletaTable TripletasInDb=@tripletasInDb Tickets=10 Title="Titulo" Description="Generacion del 00 al 99 sin repetición." Tripletas=@Tripletas />
+                <TripletaTable TripletasInDb=@tripletasInDb Tickets=tickets Title="Titulo" Description="Generacion del 00 al 99 sin repetición." Tripletas=@Tripletas />
                 break;
         }
     };
+
+    private async void GenerateTickets()
+    {
+        switch (SelectedReport)
+        {
+            case 1:
+                /// Jugada de Rafa
+                //Lotos = await Gen.Gen1To38(tickets);
+                break;
+            case 2:
+                Lotos = await Gen.GenWithoutRepeating(tickets);
+                break;
+            case 3:
+                /// Jugada de Pedro
+                //Lotos = await Gen.FormulaDePedro(tickets);
+                break;
+            case 4:
+                Tripletas = await Gen.GenTripleta(tickets);
+                break;
+        }
+    }
 }
